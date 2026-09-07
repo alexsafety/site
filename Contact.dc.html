@@ -34,14 +34,13 @@
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;">
         <div>
-          <figure style="margin:0 0 20px;">
-            <img src="assets/alex.jpg" alt="Alex, AF Safety" style="width:160px;height:160px;object-fit:cover;display:block;">
+          <figure style="margin:0 0 16px;">
+            <img src="assets/alex.jpg" alt="Alex Filipczak, AF Safety" style="width:160px;height:160px;object-fit:cover;display:block;">
           </figure>
+          <p style="margin:0 0 20px;font-weight:700;font-size:15px;">Alex Filipczak BSc MSc</p>
           <h3 style="margin:0 0 16px;">Get in touch</h3>
           <p style="opacity:0.82;margin:0 0 20px;max-width:36ch;">Tell us about your site and what you need — we'll come back with next steps.</p>
           <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;">
-            <a href="tel:07590215174" style="color:var(--color-accent-700);text-decoration:none;font-weight:600;">07590 215174</a>
-            <a href="mailto:contact@afsafety.co.uk" style="color:var(--color-accent-700);text-decoration:none;font-weight:600;">contact@afsafety.co.uk</a>
             <span style="opacity:0.7;">Covering London &amp; the Home Counties</span>
             <span style="opacity:0.7;">Chartered Member of IOSH</span>
           </div>
@@ -49,7 +48,7 @@
 
         <div>
           <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
-            <form onSubmit="{{ handleSubmit }}" style="display:flex;flex-direction:column;gap:16px;max-width:520px;">
+            <form onSubmit="{{ handleSubmit }}" ref="{{ formRef }}" style="display:flex;flex-direction:column;gap:16px;max-width:520px;">
               <div class="field">
                 <label for="name">Name</label>
                 <input class="input" id="name" name="name" type="text" required="{{ true }}">
@@ -72,7 +71,10 @@
                 <label for="message">What do you need help with?</label>
                 <textarea class="input" id="message" name="message" rows="5" required="{{ true }}"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary btn-block" style="white-space:nowrap;">Send request</button>
+              <button type="submit" class="btn btn-primary btn-block" style="white-space:nowrap;">{{ submitLabel }}</button>
+              <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+                <p style="color:var(--color-accent-700);margin:0;font-size:14px;">Something went wrong — please try again or email us directly.</p>
+              </sc-if>
             </form>
           </sc-if>
           <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
@@ -88,10 +90,6 @@
 
   <footer style="border-top:2px solid var(--color-divider);padding:32px clamp(20px,5vw,72px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px;">
     <span style="opacity:0.7;">© 2026 AF Safety Consultancy. London &amp; Home Counties.</span>
-    <div style="display:flex;gap:24px;flex-wrap:wrap;">
-      <a href="tel:07590215174" style="color:inherit;text-decoration:none;">07590 215174</a>
-      <a href="mailto:contact@afsafety.co.uk" style="color:inherit;text-decoration:none;">contact@afsafety.co.uk</a>
-    </div>
   </footer>
 
 </div>
@@ -99,16 +97,31 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { submitted: false };
-  handleSubmit = (e) => {
+  state = { submitted: false, sending: false, hasError: false };
+  formRef = React.createRef();
+  handleSubmit = async (e) => {
     e.preventDefault();
-    this.setState({ submitted: true });
+    this.setState({ sending: true, hasError: false });
+    try {
+      const res = await fetch('https://formspree.io/f/mdeowyyl', {
+        method: 'POST',
+        body: new FormData(this.formRef.current),
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error('bad status');
+      this.setState({ submitted: true, sending: false });
+    } catch (err) {
+      this.setState({ sending: false, hasError: true });
+    }
   };
   renderVals() {
     return {
       showForm: !this.state.submitted,
       submitted: this.state.submitted,
+      hasError: this.state.hasError,
+      submitLabel: this.state.sending ? 'Sending…' : 'Send request',
       handleSubmit: this.handleSubmit,
+      formRef: this.formRef,
     };
   }
 }
