@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/modernist-5ddb0f95-6de2-407a-906b-e135ba74de77/styles.css">
+  <script src="_ds/modernist-5ddb0f95-6de2-407a-906b-e135ba74de77/_ds_bundle.js"></script>
+  <style>body{margin:0}</style>
+</helmet>
+<div style="--color-accent:#1e8c34;--color-accent-2:#1e8c34;--color-accent-100:#eafbea;--color-accent-200:#c9f2c7;--color-accent-300:#9fe89c;--color-accent-400:#5cd45a;--color-accent-500:#1e8c34;--color-accent-600:#176f29;--color-accent-700:#11541f;--color-accent-800:#0d4118;--color-accent-900:#082b10;--color-accent-2-100:#eafbea;--color-accent-2-200:#c9f2c7;--color-accent-2-300:#9fe89c;--color-accent-2-400:#5cd45a;--color-accent-2-500:#1e8c34;--color-accent-2-600:#176f29;--color-accent-2-700:#11541f;--color-accent-2-800:#0d4118;--color-accent-2-900:#082b10;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);min-height:100vh;">
+
+  <nav class="nav" style="justify-content:space-between;padding:16px clamp(20px,5vw,72px);flex-wrap:wrap;gap:16px;">
+    <a href="Home.dc.html" style="display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;">
+      <img src="assets/logo.png" alt="AF Safety" style="height:34px;display:block;">
+    </a>
+    <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap;">
+      <a href="Home.dc.html">Home</a>
+      <a href="Services.dc.html">Services</a>
+      <a href="Certifications.dc.html">Certifications</a>
+      <a href="Contact.dc.html" aria-current="page">Contact</a>
+    </div>
+    <a href="Contact.dc.html" class="btn btn-primary" style="white-space:nowrap;flex:none;">Request a quote</a>
+  </nav>
+
+  <section style="padding:72px clamp(20px,5vw,72px) 80px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <h6 style="color:var(--color-accent-700);margin:0 0 16px;">Contact</h6>
+      <h1 style="font-size:clamp(32px,4.4vw,52px);max-width:18ch;margin:0 0 40px;">Request a consultation</h1>
+
+      <div style="display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2fr);gap:56px;">
+        <div>
+          <h3 style="margin:0 0 16px;">Get in touch</h3>
+          <p style="opacity:0.82;margin:0 0 20px;max-width:36ch;">Tell us about your site and what you need — we'll come back with next steps.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;">
+            <a href="tel:07590215174" style="color:var(--color-accent-700);text-decoration:none;font-weight:600;">07590 215174</a>
+            <a href="mailto:contact@afsafety.co.uk" style="color:var(--color-accent-700);text-decoration:none;font-weight:600;">contact@afsafety.co.uk</a>
+            <span style="opacity:0.7;">Covering London &amp; the Home Counties</span>
+            <span style="opacity:0.7;">Chartered Member of IOSH</span>
+          </div>
+        </div>
+
+        <div>
+          <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ handleSubmit }}" style="display:flex;flex-direction:column;gap:16px;max-width:520px;">
+              <div class="field">
+                <label for="name">Name</label>
+                <input class="input" id="name" name="name" type="text" required="{{ true }}">
+              </div>
+              <div class="field">
+                <label for="company">Company</label>
+                <input class="input" id="company" name="company" type="text">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input class="input" id="email" name="email" type="email" required="{{ true }}">
+                </div>
+                <div class="field">
+                  <label for="phone">Phone</label>
+                  <input class="input" id="phone" name="phone" type="tel">
+                </div>
+              </div>
+              <div class="field">
+                <label for="message">What do you need help with?</label>
+                <textarea class="input" id="message" name="message" rows="5" required="{{ true }}"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block" style="white-space:nowrap;">Send request</button>
+            </form>
+          </sc-if>
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="max-width:480px;padding:24px;background:var(--color-surface);border-left:2px solid var(--color-accent);">
+              <h3 style="margin:0 0 8px;">Thanks — message received.</h3>
+              <p style="margin:0;opacity:0.82;">We've got your details and will be in touch shortly.</p>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:2px solid var(--color-divider);padding:32px clamp(20px,5vw,72px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px;">
+    <span style="opacity:0.7;">© 2026 AF Safety Consultancy. London &amp; Home Counties.</span>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;">
+      <a href="tel:07590215174" style="color:inherit;text-decoration:none;">07590 215174</a>
+      <a href="mailto:contact@afsafety.co.uk" style="color:inherit;text-decoration:none;">contact@afsafety.co.uk</a>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { submitted: false };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({ submitted: true });
+  };
+  renderVals() {
+    return {
+      showForm: !this.state.submitted,
+      submitted: this.state.submitted,
+      handleSubmit: this.handleSubmit,
+    };
+  }
+}
+</script>
+</body>
+</html>
